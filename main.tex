@@ -1,0 +1,305 @@
+%=================================================
+%  文档类 & 版面
+%=================================================
+\documentclass[
+    UTF8,
+    a4paper,
+    12pt,
+    twoside,      % ← 双面
+    openany       % ← 不自动强制右页开新章（article 类无效，但以防以后换 book）
+]{ctexart}
+
+
+\usepackage[
+  top=30mm,             % 纸顶 → 正文首行基线
+  bottom=25mm,          % 纸底 → 正文末行基线
+  inner=25mm,
+  outer=25mm,
+  bindingoffset=10mm,
+  headheight=14.5pt,    % 小五号宋体一行 ≈ 5.1mm
+  headsep=9mm,          % 30 - 16 - 5.1 ≈ 9
+  footskip=10mm         % 25 - 15 = 10
+]{geometry}             % ← 注意：这里**不要** includefoot
+
+
+%=================================================
+%  基础数学与符号
+%=================================================
+\usepackage{amsmath, amssymb, mathrsfs, dutchcal}
+\numberwithin{equation}{section}               % 公式按章节编号
+\renewcommand\thesection{\arabic{section}}     % section 用阿拉伯数字
+
+%=================================================
+%  图形与颜色
+%=================================================
+\usepackage{graphicx}
+\graphicspath{{data/figures/}}              % 统一图路径
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{xcolor}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}       % 代码块背景色
+
+%=================================================
+%  算法 & 代码高亮
+%=================================================
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\tcbuselibrary{listingsutf8}
+\usepackage{listings}
+\lstdefinestyle{thesiscode}{
+  basicstyle=\ttfamily\scriptsize,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=none
+}
+
+
+%=================================================
+%  表格
+%=================================================
+\usepackage{array, booktabs, multirow, colortbl, arydshln, tabularx}
+
+%=================================================
+%  章节标题 & 行距;统一正文字号 + 固定 20pt 行距
+\usepackage{setspace}              % 行距宏包仍需加载
+
+
+% ① 仍然放在导言区，titlesec / fancyhdr 之前、\begin{document} 之前
+\makeatletter
+% 重定义 \zihao{-4} ：字号 10.5pt，行距 20pt
+\def\zihao@size@minusfour{10.5bp}% TrueSize 小四
+\def\zihao@line@minusfour{20pt}%   ← 行距写死 20 pt
+\makeatother
+
+% 把“正文默认字号”改成小四（如果想让正文一律小四）
+\AtBeginDocument{%
+  \zihao{-4}              % 进入正文就激活小四 + 20pt 行距
+  \setlength{\parskip}{0pt}%
+  \setlength{\parindent}{2em}%
+}
+
+%=================================================
+%  页眉页脚
+%=================================================
+\usepackage{fancyhdr}
+
+% 让 \section 自动写入 “1 绪论” 这样的文字到 \leftmark
+\renewcommand{\sectionmark}[1]{%
+  \markboth{\thesection\quad #1}{}%
+}
+
+
+% ---------- 基础 fancy：正文通用 ----------
+\fancypagestyle{mainstyle}{
+  \fancyhf{}
+  \fancyfoot[C]{\songti\zihao{-5}\thepage} 
+  \fancyhead[CE]{\songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+  \fancyhead[CO]{\songti\zihao{-5} \leftmark}
+  \renewcommand{\headrulewidth}{0.5pt}
+}
+
+% ---------- 目录专用 ----------
+\fancypagestyle{tocstyle}{
+  \fancyhf{}
+  \fancyfoot[C]{\songti\zihao{-5}\thepage} 
+  \fancyhead[CE]{\songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+  \fancyhead[CO]{\songti\zihao{-5} 目\quad 录}
+  \renewcommand{\headrulewidth}{0.5pt}
+}
+
+% ---------- 覆盖 plain（章节首页 / 目录首页默认用 plain） ----------
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\songti\zihao{-5}\thepage} 
+  \fancyhead[CE]{\songti\zihao{-5} 重庆大学本科学生毕业论文（设计）}
+  \fancyhead[CO]{\songti\zihao{-5} \leftmark}
+  \renewcommand{\headrulewidth}{0.5pt}
+}
+
+% ------- 与 fancyhdr 兼容的细线定义（保留即可） -------
+\makeatletter
+\def\headrule{%
+  {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
+   \hrule\@height0.5pt\@width\headwidth\vskip1.5pt}}
+\makeatother
+\setlength{\headheight}{14.5pt}
+\setlength{\headsep}{12mm}  % 这里 16mm 已够；此前的 2.5cm 可删
+
+
+%=================================================
+%  字体映射（英：Times，新宋：FandolSong，黑：FandolHei）
+%=================================================
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{
+  \setmainfont{Times New Roman}
+  \newfontfamily\thesisenglishfont{Times New Roman}
+}{
+  \setmainfont{TeX Gyre Termes}
+  \newfontfamily\thesisenglishfont{TeX Gyre Termes}
+}
+\IfFontExistsTF{SimSun}{
+  \setCJKmainfont{SimSun}
+  \setCJKfamilyfont{zhsong}{SimSun}
+}{
+  \setCJKmainfont{FandolSong-Regular}
+  \setCJKfamilyfont{zhsong}{FandolSong-Regular}
+}
+\IfFontExistsTF{SimHei}{
+  \setCJKfamilyfont{zhhei}{SimHei}
+}{
+  \setCJKfamilyfont{zhhei}{FandolHei-Regular}
+}
+% 只需要把 \heiti 映射到新黑体；\songti 保持原状即可
+\renewcommand{\heiti}{\CJKfamily{zhhei}}
+\renewcommand{\songti}{\CJKfamily{zhsong}}
+
+%=================================================
+%  图表编号按章节
+%=================================================
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+%=================================================
+%  题注格式
+%=================================================
+\usepackage[font=small,labelsep=quad]{caption}
+
+
+%=================================================
+%  交叉引用 & 超链接
+%=================================================
+\usepackage[colorlinks=true,
+            linkcolor=black,
+            anchorcolor=black,
+            citecolor=black,
+            urlcolor=black]{hyperref}
+%=================================================
+%  参考文献引用
+\usepackage[sort,compress]{cite}  % 支持 [1-3]
+\newcommand{\supcite}[1]{\textsuperscript{\cite{#1}}}
+
+%  目录样式：只用 tocloft（禁用 titletoc 以免冲突）
+%=================================================
+\usepackage{tocloft}
+
+
+% 目录标题文字（两字中间空两格）
+\renewcommand{\contentsname}{目\quad 录}
+
+% 标题上下各空一行
+\setlength{\cftbeforetoctitleskip}{\baselineskip}
+\setlength{\cftaftertoctitleskip}{\baselineskip}
+
+% ---------- 让目录标题自动居中 ----------
+\renewcommand{\cfttoctitlefont}{\heiti\zihao{3}\hfill}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+
+% 一级目录：黑体四号
+\renewcommand{\cftsecfont}{\heiti\zihao{4}}
+\renewcommand{\cftsecpagefont}{\heiti\zihao{4}}
+\setlength{\cftsecindent}{0pt}
+
+% 二级目录：黑体五号
+\renewcommand{\cftsubsecfont}{\heiti\zihao{5}}
+\renewcommand{\cftsubsecpagefont}{\heiti\zihao{5}}
+\setlength{\cftsubsecindent}{1.5em}
+
+% 三级目录：宋体五号
+\renewcommand{\cftsubsubsecfont}{\songti\zihao{5}}
+\renewcommand{\cftsubsubsecpagefont}{\songti\zihao{5}}
+\setlength{\cftsubsubsecindent}{3em}
+
+% ★ 关闭目录项之间的空行（一定写在所有 tocloft 设置之后）
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+
+% 引导点
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+%=================================================
+%  section / subsection / subsubsection 字体字号
+%=================================================
+% ----------------- 章节标题格式 -----------------
+\usepackage{titlesec}
+
+% 一级标题：段前 1 行，段后 1 行（始终存在）
+\titleformat{\section}
+  {\heiti\zihao{3}\centering}{\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{\baselineskip}{\baselineskip}
+
+% 二级标题：如果上面是正文 → 段前 1 行；如果上面是标题 → 段前 0 行
+% ☆ 用 *20pt 而不是 *\baselineskip，避免 “Missing number” 报错
+\titleformat{\subsection}
+  {\heiti\zihao{-3}}{\thesubsection}{0.5em}{}
+\titlespacing{\subsection}{0pt}{*1}{0pt}
+
+% 三级标题：顶格，前后都不空行
+\titleformat{\subsubsection}
+  {\heiti\zihao{4}}{\thesubsubsection}{0.5em}{}
+\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+
+
+\usepackage{float}      % 你已经在用
+% ——把  figure / table 与正文的上下间距都改成“一行”——
+\setlength{\intextsep}{20pt}   % 文内浮动体（你的 [H]、[h]）
+\setlength{\textfloatsep}{20pt}% 顶/底浮动体（[t]、[b]）
+% ——标题与图身/表身之间贴 4 pt，就不会过稀——
+\captionsetup{skip=4pt}
+
+%=================================================
+%  自定义命令：圈数字
+%=================================================
+\newcommand*{\circled}[1]{\lower.7ex\hbox{%
+  \tikz\draw (0,0) circle (.5em) node {\makebox[1em][c]{\small #1}};}}
+
+%% 章节标题后也要首行缩进 2em
+\usepackage{indentfirst}
+
+
+%=================================================
+%  开始正文
+%=================================================
+\begin{document}
+
+\pagestyle{mainstyle}  % 放在 \begin{document} 之后、封面之前
+
+%—————————— 封面 ——————————%
+\input{tex/cover_cn}
+
+\pagestyle{fancy}
+
+
+%—————————— 中文/英文摘要 ——————————%
+\input{tex/abstract}   
+
+%——— 目录 ——%
+\input{tex/toc}   
+
+% %—————————— 主体章节 ——————————%
+\input{tex/chapter1}
+
+\input{tex/chapter2}
+
+\input{tex/chapter3}
+
+\input{tex/chapter4}
+
+\input{tex/chapter5}
+
+%—————————— 参考文献 ——————————%
+\input{tex/references}
+
+
+%—————————— 致谢 ——————————%
+\input{tex/thanks}
+
+
+%—————————— 原创性说明 ——————————%
+\input{tex/illustrate}
+
+
+\end{document} 

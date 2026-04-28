@@ -1,0 +1,13 @@
+%================ 目录 =================%
+\cleardoublepage            % 保目录从奇数页开始
+\pagestyle{tocstyle}        % 启用目录样式
+\tableofcontents
+\cleardoublepage            % 目录结束，翻到奇数页
+
+% ====== 关键：切回阿拉伯数字并重新计数 ======
+\pagenumbering{arabic}      % 改用 1,2,3…
+\setcounter{page}{1}        % 绪论页码从 1 开始
+% =====================================
+
+\pagestyle{mainstyle}       % 恢复正文样式
+

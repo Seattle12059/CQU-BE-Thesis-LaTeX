@@ -1,0 +1,52 @@
+# 编译生成的文件
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.blg
+*.bbl
+*.idx
+*.ind
+*.ilg
+*.lof
+*.lot
+*.glg
+*.glo
+*.gls
+*.ist
+*.acn
+*.acr
+*.alg
+*.bcf
+*.run.xml
+
+# Minted 缓存目录（代码高亮）
+*.minted
+*_minted-*
+*.pyg
+
+# 生成的 PDF
+*.pdf
+
+# 临时文件
+missfont.log
+
+# 编辑器备份文件
+*.bak
+*.swp
+*.swo
+*~
+
+# Windows 系统文件
+Thumbs.db
+desktop.ini
+
+# macOS 系统文件
+.DS_Store
+
+
+main.xdv
+main.synctex(busy)

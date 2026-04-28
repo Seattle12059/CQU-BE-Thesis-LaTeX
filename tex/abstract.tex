@@ -1,0 +1,36 @@
+%——————————— 中文摘要 ———————————%
+\cleardoublepage                           % 保证中文摘要落在右页
+\pagestyle{fancy}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\fancyhead[CE]{\songti\zihao{-5} xxx} % 左页页眉
+\fancyhead[CO]{\songti\zihao{-5} 摘要}                             % 右页页眉
+
+\addcontentsline{toc}{section}{摘要}
+\section*{摘\quad 要}
+%摘要：二字间空两格，黑体三号居中，段前，段后各空一行。
+
+xxx
+
+~\\
+%关键字：宋体12磅，行距20磅，段前段后0磅，关键词之间用分号隔开,关键词三个字加粗。
+\hspace*{2em}{\heiti \zihao{-4}关键词}：xxx；
+
+% 插入空白页，以保证英文摘要从奇数页开始
+\cleardoublepage
+
+%——————————— 英文摘要 ———————————%
+\fancyhead[CE]{\songti\zihao{-5} xxx} % 左页页眉
+\fancyhead[CO]{\zihao{-5} ABSTRACT}                                % 右页页眉
+
+\addcontentsline{toc}{section}{ABSTRACT}
+\titleformat{\section}[block]{\centering\bfseries\thesisenglishfont\fontsize{16pt}{20pt}\selectfont}{\thesection}{1em}{}[]
+\section*{ABSTRACT}
+%ABSTRCT：Times New Roman 加粗三号，段前段后空一行
+
+xxx
+%英文摘要内容：Times New Roman 12磅（即小四号），行距20磅段前段后0磅
+
+~\\
+\hspace*{2em}\textbf{Key words}: xxx;\\
+%Keywords：Times New Roman 12磅，行距20磅， “key words” 两词加粗
